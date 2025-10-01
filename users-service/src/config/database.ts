@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 
 export const sequelize = new Sequelize(
-  process.env.DB_NAME || "store_db",     s
+  process.env.DB_NAME || "store_db",     
   process.env.DB_USER || "admin",        
   process.env.DB_PASSWORD || "admin123",  
   {
