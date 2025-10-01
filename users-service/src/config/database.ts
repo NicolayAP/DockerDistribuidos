@@ -1,15 +1,16 @@
 import { Sequelize } from "sequelize";
 
 export const sequelize = new Sequelize(
-    "store_db",      // BD_name
-    "admin",         // user en docker
-    "admin123",         // password en docker
-    {
-        host: "localhost",
-        dialect: 'mysql',
-        port: 3306,         // Puerto expuesto en docker-compose
-        logging: false,     // Desactiva logs de SQL en consola
-    });
+  process.env.DB_NAME || "store_db",     s
+  process.env.DB_USER || "admin",        
+  process.env.DB_PASSWORD || "admin123",  
+  {
+    host: process.env.DB_HOST || "mysql", 
+    dialect: "mysql",
+    port: 3306,
+    logging: false,
+  }
+);
 
 export async function connectDB() {
   try {
@@ -17,5 +18,6 @@ export async function connectDB() {
     console.log("Conexión establecida con MySQL.");
   } catch (error) {
     console.error("Error al conectar con la base de datos:", error);
+    throw error; // opcional: para que el contenedor falle si no puede conectar
   }
 }

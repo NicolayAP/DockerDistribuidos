@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   mysql:
     image: mysql:8.0
@@ -13,6 +15,33 @@ services:
     volumes:
       - store_mysql_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - store-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  user-service:
+    build: ./users-service
+    container_name: user_service
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql   
+    environment:
+      DB_HOST: mysql
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      DB_NAME: store_db
+    networks:
+      - store-network
 
 volumes:
   store_mysql_data:
+
+networks:
+  store-network:
+    driver: bridge
