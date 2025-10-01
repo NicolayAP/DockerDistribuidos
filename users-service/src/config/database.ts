@@ -5,9 +5,9 @@ export const sequelize = new Sequelize(
   process.env.DB_USER || "admin",        
   process.env.DB_PASSWORD || "admin123",  
   {
-    host: process.env.DB_HOST || "mysql", 
+    host: process.env.DB_HOST || "store_mysql", 
     dialect: "mysql",
-    port: 3306,
+    port: Number(process.env.DB_PORT) || 3306,
     logging: false,
   }
 );
@@ -18,6 +18,6 @@ export async function connectDB() {
     console.log("Conexión establecida con MySQL.");
   } catch (error) {
     console.error("Error al conectar con la base de datos:", error);
-    throw error; // opcional: para que el contenedor falle si no puede conectar
+    throw error; 
   }
 }

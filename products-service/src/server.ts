@@ -2,7 +2,7 @@ import app from "./app";
 import { connectDB } from "./infrastructure/config/database";
 import { seedCategories, seedProducts } from "./infrastructure/config/seed";
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, async () => {
   await connectDB();

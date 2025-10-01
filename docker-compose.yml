@@ -30,12 +30,50 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - mysql   
+      mysql:
+        condition: service_healthy
     environment:
-      DB_HOST: mysql
+      DB_HOST: store_mysql
       DB_USER: admin
       DB_PASSWORD: admin123
       DB_NAME: store_db
+      DB_PORT: 3306
+    networks:
+      - store-network
+
+  product-service:
+    build: ./products-service
+    container_name: product_service
+    restart: always
+    ports:
+      - "3001:3000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_HOST: store_mysql
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      DB_NAME: store_db
+      DB_PORT: 3306
+    networks:
+      - store-network
+
+  order-service:
+    build: ./orders-service
+    container_name: order_service
+    restart: always
+    ports:
+      - "3002:3000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_HOST: store_mysql
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      DB_NAME: store_db
+      DB_PORT: 3306
     networks:
       - store-network
 

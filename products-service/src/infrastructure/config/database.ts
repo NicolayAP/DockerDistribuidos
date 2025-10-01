@@ -5,9 +5,9 @@ export const sequelize = new Sequelize(
     "admin",         // user en docker
     "admin123",         // password en docker
     {
-        host: "localhost",
+    host: process.env.DB_HOST || "store_mysql", 
         dialect: 'mysql',
-        port: 3306,         // Puerto expuesto en docker-compose
+    port: Number(process.env.DB_PORT) || 3306,
         logging: false,     // Desactiva logs de SQL en consola
     });
 
